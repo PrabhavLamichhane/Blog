@@ -19,8 +19,8 @@ const Blog = mongoose.model('Blog', new mongoose.Schema({
     description: {
         type: String,
         required: true,
-        minlength: 20,
-        maxlength: 5000
+        // minlength: 20,
+        // maxlength: 5000
     }
 }));
 
@@ -28,7 +28,7 @@ function validateBlog(blog) {
     const schema = Joi.object({
         title: Joi.string().min(5).max(255).required(),
         categoryId: Joi.objectId().required(),
-        description: Joi.string().min(20).max(5000).required()
+        description: Joi.string().required()
     });
 
     return schema.validate(blog);

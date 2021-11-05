@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const moment = require('moment');
 
 const { Category } = require('../models/category');
