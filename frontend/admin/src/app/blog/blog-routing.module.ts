@@ -4,6 +4,7 @@ import { Routes,RouterModule } from '@angular/router';
 import { BlogListComponent } from './blog-list/blog-list.component';
 import { BlogDetailsComponent } from './blog-details/blog-details.component';
 import { AddBlogComponent } from './add-blog/add-blog.component';
+import { AuthGuardService } from '../services/auth-guard.service';
 
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   {
     path: 'add-blog',
     component: AddBlogComponent,
+    canActivate: [AuthGuardService]  
   },
   {
     path:'blogs/:id/:title',

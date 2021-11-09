@@ -12,6 +12,7 @@
                 <li class="nav-item active">
                     <a class="nav-link" routerLink="/add-blog">Add Blogs</a>
                 </li>
+                <!-- <li class="nav-item active" *ngIf="authService.isLoggedIn() && authService.currentUser.admin"> -->
                 <li class="nav-item active">
                     <a class="nav-link" routerLink="/categories">Categories</a>
                 </li>
@@ -20,8 +21,9 @@
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-            <button class="btn btn-success mx-2 ml-2 my-sm-2" type="submit">Login</button>
-            <button class="btn btn-success mx-2 ml-2 my-sm-2" type="submit">Register</button>
+            <button class="btn btn-success mx-2 ml-2 my-sm-2" type="submit" routerLink='/auth/login' *ngIf="!authService.isLoggedIn()">Login</button>
+            <button class="btn btn-success mx-2 ml-2 my-sm-2" type="submit" routerLink='/auth/signup' *ngIf="!authService.isLoggedIn()">Register</button>
+            <button class="btn btn-success mx-2 ml-2 my-sm-2" type="submit" (click)="authService.logout()" *ngIf="authService.isLoggedIn()">Logout</button>
         </div>
     </div>
 </nav>

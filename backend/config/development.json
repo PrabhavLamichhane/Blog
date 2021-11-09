@@ -1,4 +1,6 @@
 {
     "port": "3900",
-    "db": "mongodb://localhost/blog"
+    "db": "mongodb://localhost/blog",
+    "jwtPrivateKey": "",
+    "requiresAuth": false
 }

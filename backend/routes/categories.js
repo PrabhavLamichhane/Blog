@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 
 const { Category, validate } = require('../models/category');
 const validateObjectId = require('../middleware/validateObjectId');
+const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
 
 const router = express.Router();
 
@@ -13,7 +15,7 @@ router.get('/', async(req, res) => {
     res.send(categories);
 });
 
-router.post('/', async(req, res) => {
+router.post('/', auth, async(req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -23,7 +25,7 @@ router.post('/', async(req, res) => {
     res.send(category);
 });
 
-router.put('/:id', validateObjectId, async(req, res) => {
+router.put('/:id', auth, validateObjectId, async(req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -39,7 +41,7 @@ router.put('/:id', validateObjectId, async(req, res) => {
     res.send(category);
 });
 
-router.delete('/:id', validateObjectId, async(req, res) => {
+router.delete('/:id', [auth, admin], validateObjectId, async(req, res) => {
     const category = await Category.findByIdAndRemove(req.params.id);
 
     if (!category)

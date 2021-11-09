@@ -12,7 +12,10 @@ const httpOptions = {
 
 export class DataService {
 
-  constructor(private url: string, private http: HttpClient) { }
+  constructor(
+    private url: string, 
+    private http: HttpClient,
+    ) { }
 
   getAll() {
     return this.http.get(this.url)
@@ -65,5 +68,21 @@ export class DataService {
 
     return Observable.throw(new AppError(error));
   }
+
+  /*
+  getData(){
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Authorization','Bearer'+token);
+
+    let options = new RequestOptions({ headers: headers})
+
+    // no need to pass options if used AuthHttp
+    return this.http.get('api/data',options,
+      .map(response=>response.json()))
+
+      Authhttp instead of http in angular-jwt
+  }
+  */
 
 }

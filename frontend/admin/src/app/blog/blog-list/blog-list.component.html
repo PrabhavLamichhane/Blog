@@ -1,17 +1,10 @@
 <div class="card border-dark mb-3" *ngFor="let blog of blogs">
     <div class="card-header">
         <a [routerLink]="['/blogs',blog._id,blog.title | kebabcase]">{{blog.title}}</a>
+        <button class="btn btn-success mx-3">Update</button>
+        <button class="btn btn-danger mx-3" (click)="deleteBlog(blog)">Delete</button>
     </div>
     <div class="card-body text-dark" [innerHTML]="blog.description">
-        <!-- <h5 class="card-title">Dark card title</h5> -->
-        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
     </div>
-</div>
 
-<!-- <div style="margin-top:10px;"> -->
-<!-- <h3>Output</h3> -->
-<!-- <div [innerHTML]="editorContent"></div> -->
-<!-- <div class="ql-snow"> -->
-<!-- <div class="ql-editor" *ngIf="editorContent" [innerHtml]="transformHtml(editorContent)"></div> -->
-<!-- </div> -->
-<!-- </div> -->
+</div>

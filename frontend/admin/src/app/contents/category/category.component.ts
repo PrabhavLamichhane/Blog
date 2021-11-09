@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup,FormControl, Validators, FormBuilder } from '@angular/forms';
 
@@ -28,13 +29,13 @@ export class CategoryComponent implements OnInit {
       )
   });
 
-
   get name(){
     return this.form.get('name');
   }
 
   constructor(
     private service:CategoryService,
+    private authService: AuthService
     ) { }
 
   ngOnInit(): void {

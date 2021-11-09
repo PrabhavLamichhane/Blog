@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { KebabcasePipe } from './pipes/kebabcase.pipe';
+import { NoAccessComponent } from './components/no-access/no-access.component';
 
 
 
@@ -14,7 +15,8 @@ import { KebabcasePipe } from './pipes/kebabcase.pipe';
   declarations: [
     NavigationComponent,
     FooterComponent,
-    KebabcasePipe
+    KebabcasePipe,
+    NoAccessComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { KebabcasePipe } from './pipes/kebabcase.pipe';
   exports:[
     NavigationComponent,
     FooterComponent,
-    KebabcasePipe
+    KebabcasePipe,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule { }

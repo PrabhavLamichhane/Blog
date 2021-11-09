@@ -1,0 +1,47 @@
+<form [formGroup]="form">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input type="email" formControlName="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <div *ngIf="email.touched && email.invalid " class="alert alert-danger ">
+            <div *ngIf="email.errors.required ">Email is required</div>
+            <div *ngIf="email.errors.email ">Invalid email address</div>
+            <div *ngIf="email.errors.maxlength ">Email should be maximum {{ email.errors.minlength.requiredLength }} characters.</div>
+            <div *ngIf="email.errors.minlength ">Email should be minimum {{ email.errors.minlength.requiredLength }} characters.</div>
+            <!-- <div *ngIf="name.errors.cannotContainSpace ">Category cannot contain space.</div> -->
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="displayName" class="form-label">Display Name</label>
+        <input type="text" class="form-control" formControlName="displayName" id="displayName" aria-describedby="emailHelp">
+        <div *ngIf="displayName.touched && displayName.invalid " class="alert alert-danger ">
+            <div *ngIf="displayName.errors.required ">Display name is required</div>
+            <div *ngIf="displayName.errors.maxlength ">Name should be maximum {{ displayName.errors.minlength.requiredLength }} characters.</div>
+            <div *ngIf="displayName.errors.minlength ">Name should be minimum {{ displayName.errors.minlength.requiredLength }} characters.</div>
+            <!-- <div *ngIf="name.errors.cannotContainSpace ">Category cannot contain space.</div> -->
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input type="password" class="form-control" formControlName="password" id="exampleInputPassword1">
+        <div *ngIf="password.touched && password.invalid " class="alert alert-danger ">
+            <div *ngIf="password.errors.required ">Password is required</div>
+            <div *ngIf="password.errors.maxlength ">Password should be maximum {{ password.errors.minlength.requiredLength }} characters.</div>
+            <div *ngIf="password.errors.minlength ">Password should be minimum {{ password.errors.minlength.requiredLength }} characters.</div>
+            <!-- <div *ngIf="name.errors.cannotContainSpace ">Category cannot contain space.</div> -->
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword2" class="form-label">Password Confirm</label>
+        <input type="password" class="form-control" formControlName="passwordConfirm" id="exampleInputPassword2">
+        <div *ngIf="passwordConfirm.touched && passwordConfirm.invalid " class="alert alert-danger ">
+            <div *ngIf="passwordConfirm.errors.required ">Password is required</div>
+            <div *ngIf="passwordConfirm.errors.maxlength ">Password should be maximum {{ passwordConfirm.errors.minlength.requiredLength }} characters.</div>
+            <div *ngIf="passwordConfirm.errors.minlength ">Password should be minimum {{ passwordConfirm.errors.minlength.requiredLength }} characters.</div>
+            <!-- <div *ngIf="name.errors.cannotContainSpace ">Category cannot contain space.</div> -->
+        </div>
+        <div *ngIf="passwordConfirm.valid && form.invalid && form.errors?.passwordsShouldMatch" class="alert alert-danger">
+            Passwords do not match.
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success" [disabled]="!form.valid" (click)="submit()">Sign Up</button>
+</form>

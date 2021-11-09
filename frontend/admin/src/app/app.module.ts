@@ -1,3 +1,4 @@
+import { AuthModule } from './auth/auth.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,8 +18,8 @@ import { SharedModule } from './shared/shared.module';
     
     AppRoutingModule,
     SharedModule,
-    BlogModule
-    
+    BlogModule,
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
