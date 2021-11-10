@@ -18,6 +18,11 @@ const routes: Routes = [
     canActivate: [AuthGuardService]  
   },
   {
+    path: 'edit-blog/:id',
+    component: AddBlogComponent,
+    canActivate: [AuthGuardService]  
+  },
+  {
     path:'blogs/:id/:title',
     component:BlogDetailsComponent
   }

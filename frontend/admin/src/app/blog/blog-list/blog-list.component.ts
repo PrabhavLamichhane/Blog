@@ -11,29 +11,32 @@ import { BlogService } from './../../services/blog.service';
 })
 export class BlogListComponent implements OnInit {
 
-// Add loading
   blogs: any[];
+  loading:boolean = false;
+  deleting:boolean = false;
 
   constructor(
     private service: BlogService,
   ) { }
 
   ngOnInit(): void {
+    this.loading = true;
     this.service.getAll()
       .subscribe(blogs => {
         this.blogs = blogs as any[];
-        console.log(this.blogs);
+        this.loading = false;
       });
   }
 
   deleteBlog(blog){
     let index = this.blogs.indexOf(blog);
-
+    this.deleting = true;
       
     this.service.delete(blog._id)
     .subscribe(
       () => { 
         this.blogs.splice(index, 1);
+        this.deleting = false;
       },
       (error: AppError) => {
         // console.log(error,"hello");

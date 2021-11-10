@@ -1,4 +1,7 @@
-<form [formGroup]="editorForm">
+<div class="spinner-border" role="status" *ngIf="loading">
+    <span class="visually-hidden">Loading...</span>
+</div>
+<form [formGroup]="editorForm" *ngIf="!loading">
 
     <div class="form-check" *ngFor="let category of categories">
         <input class="form-check-input" type="radio" value="{{category._id}}" formControlName="categoryId">
@@ -29,6 +32,10 @@
     </quill-editor>
     <!-- length not working properly -->
     <!-- <span *ngIf="editorForm?.get('editor')?.value">{{ editorForm?.get('editor')?.value?.length }}</span> -->
-    <button type="submit " style="margin-top: 20px; " [disabled]="!editorForm?.valid" class="btn btn-success" (click)="onSubmit()">Submit</button>
+    <button type="submit " style="margin-top: 20px; " [disabled]="!editorForm?.valid" class="btn btn-success" (click)="onSubmit()">
+        <div *ngIf="adding || updating" class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        <span *ngIf="!adding && !updating">Submit</span> 
+    </button>
 </form>
-

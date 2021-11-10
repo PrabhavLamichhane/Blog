@@ -3,10 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 
 import 'quill-emoji/dist/quill-emoji.js';
 import Quill from 'quill';
 import BlotFormatter from 'quill-blot-formatter/dist/BlotFormatter';
+
 import { CategoryService } from 'src/app/services/category.service';
 import { AppError } from '../../shared/errors/app-error';
 import { BadInput } from '../../shared/errors/bad-input';
@@ -30,18 +32,30 @@ export class AddBlogComponent implements OnInit {
   editorContent: string | undefined;
 
   categories: any[] = [];
+  blogId: any;
+
+  loading:boolean = false;
+  adding:boolean = false;
+  updating:boolean = false;
 
   constructor(
     private sanitizer: DomSanitizer,
     private service: CategoryService,
-    private blogService:BlogService,
-    private formBuilder: FormBuilder
+    private blogService: BlogService,
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
 
     this.getEditor();
     this.getCategories();
+
+    this.route.paramMap
+      .subscribe(params => {
+        this.blogId = params.get('id');
+        if (this.blogId) this.getBlog(this.blogId);
+      });
 
     this.editorForm = this.formBuilder.group({
       categoryId: new FormControl('', [
@@ -57,34 +71,66 @@ export class AddBlogComponent implements OnInit {
   }
 
   get f() {
-		return this.editorForm.controls;
-	}
+    return this.editorForm.controls;
+  }
 
   getCategories(): void {
+    this.loading = true;
     this.service.getAll()
       .subscribe(categories => {
         this.categories = categories as any[];
-        console.log(this.categories);
+        this.loading = false;
       });
+  }
+
+  getBlog(id): void {
+    this.loading = true;
+    if (id) {
+      this.blogService.getOne(id)
+        .subscribe(blog => {
+          // this.blog = blog;
+          this.editorForm.setValue({ categoryId: blog['category']['_id'], title: blog['title'], description: blog['description'] });
+          this.loading = false;
+
+        });
+    }
   }
 
   onSubmit() {
     let blog = this.editorForm.value
 
     // this.editorContent = this.editorForm.get('description')?.value;
-
-    this.blogService.create(blog)
-    .subscribe(category =>{
-      // this.categories.splice(0,0,category);
-      alert('Posted');
-      },
-      (error: AppError) =>{
-        // this.categories.splice(0,1);
-        console.log(error)
-        if (error instanceof BadInput)
-          alert('Bad request');
-        else throw error;  
-      });
+    if (this.blogId) {
+      this.updating = true;
+      this.blogService.update(blog, this.blogId)
+        .subscribe(category => {
+          // this.categories.splice(0,0,category);
+          alert('updated');
+          this.updating = false;
+        },
+          (error: AppError) => {
+            // this.categories.splice(0,1);
+            console.log(error)
+            if (error instanceof BadInput)
+              alert('Bad request');
+            else throw error;
+          });
+    } else {
+      this.adding = true;
+      this.blogService.create(blog)
+        .subscribe(category => {
+          // this.categories.splice(0,0,category);
+          alert('Posted');
+          this.adding = false;
+        },
+          (error: AppError) => {
+            // this.categories.splice(0,1);
+            console.log(error)
+            if (error instanceof BadInput)
+              alert('Bad request');
+            else throw error;
+          });
+    }
   }
 
   created(event: any) {
@@ -122,7 +168,7 @@ export class AddBlogComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustHtml(htmlTextWithStyle);
   }
 
-  getEditor(){
+  getEditor() {
     this.moduleConfig = {
       'emoji-shortname': true,
       'emoji-textarea': false,

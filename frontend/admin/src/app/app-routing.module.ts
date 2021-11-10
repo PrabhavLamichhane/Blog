@@ -17,7 +17,8 @@ const routes: Routes = [
     path: 'categories',
     loadChildren: () => import('./contents/contents.module')
       .then(m => m.ContentsModule),
-    canActivate: [AuthGuardService,AdminAuthGuardService]  
+    canActivate: [AuthGuardService] 
+    // canActivate: [AuthGuardService,AdminAuthGuardService] 
   },
   {
     path: 'auth',

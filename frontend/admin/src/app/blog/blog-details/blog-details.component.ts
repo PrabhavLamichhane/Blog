@@ -12,6 +12,7 @@ import { BlogService } from './../../services/blog.service';
 export class BlogDetailsComponent implements OnInit {
 
   blog:any;
+  loading:boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -19,22 +20,23 @@ export class BlogDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    let id = this.route.snapshot.paramMap.get('id');
-    console.log(id);
-    // this.route.paramMap
-    //   .subscribe(params => {
-    //     let id = params.get('id');
-    //     console.log(id);
-    //   });
+    // let id = this.route.snapshot.paramMap.get('id');
+    // console.log(id);
+    this.route.paramMap
+      .subscribe(params => {
+        let id = params.get('id');
+        console.log(id);
+        this.getDetails(id);
+      });
 
-    this.getDetails(id);
   }
 
   getDetails(id): void {
+    this.loading = true;
     this.service.getOne(id)
       .subscribe(blog=>{
-        console.log(blog)
         this.blog = blog;
+        this.loading = false;
       });
   }
 

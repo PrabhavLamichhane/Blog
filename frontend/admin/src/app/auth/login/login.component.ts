@@ -12,6 +12,7 @@ import { AuthService } from './../../services/auth.service';
 export class LoginComponent implements OnInit {
   invalidLogin: boolean;
   form: FormGroup;
+  logging:boolean = false;
 
   constructor(
     private router: Router,
@@ -48,9 +49,11 @@ export class LoginComponent implements OnInit {
 
   signIn() {
 
+    this.logging = true;
     this.authService.login(this.form.value)
       .subscribe(result => {
         if (result){
+          this.logging = false;
           let returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
           this.router.navigate([returnUrl || '/'])
         }

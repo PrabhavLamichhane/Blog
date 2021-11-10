@@ -14,6 +14,7 @@ export class SignupComponent implements OnInit {
 
   form: FormGroup;
   invalidSignUp:boolean = false;
+  creating:boolean = false;
 
   constructor(
     fb: FormBuilder,
@@ -71,12 +72,14 @@ export class SignupComponent implements OnInit {
 
   submit(){
     const { ['passwordConfirm']: omitted, ...formData } = this.form.value;
-    console.log(formData);
+    this.creating = true;
     this.authService.signUp(formData)
       .subscribe(result => {
         if (result){
+          this.creating = true;
           let returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
           this.router.navigate([returnUrl || '/'])
+
         }
         else
           this.invalidSignUp = true;
