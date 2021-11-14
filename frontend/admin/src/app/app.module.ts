@@ -7,6 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BlogModule } from './blog/blog.module';
 import { SharedModule } from './shared/shared.module';
+import { CustomValidators } from './auth/validators/custom-validators';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,10 @@ import { SharedModule } from './shared/shared.module';
     BlogModule,
     AuthModule
   ],
-  providers: [],
+  providers: [
+    CustomValidators,
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

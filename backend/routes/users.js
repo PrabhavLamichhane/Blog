@@ -31,4 +31,12 @@ router.post('/', async(req, res) => {
     res.header('x-auth-token', token).send(_.pick(user, ['_id', 'displayName', 'email']));
 });
 
+router.get("/", async(req, res) => {
+    const users = await User.find()
+        .select('-__v')
+        .sort('displayName');
+    res.send(users);
+});
+
+
 module.exports = router;

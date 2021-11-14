@@ -3,7 +3,7 @@ import { NotFoundError } from './../shared/errors/not-found-error';
 import { BadInput } from './../shared/errors/bad-input';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 
 const httpOptions = {
@@ -59,14 +59,17 @@ export class DataService {
 
   }
 
-  handleError(error: Response) {
+  // add this on seperate file later on
+  handleError(error: any) {
     if (error.status === 400)
-      return Observable.throw(new BadInput(error));
+      return throwError(new BadInput(error.error));
+    
 
     if (error.status === 404)
-      return Observable.throw(new NotFoundError(error));
+      return throwError(new NotFoundError(error.error));
 
-    return Observable.throw(new AppError(error));
+    return throwError(new AppError(error.error));
+
   }
 
   /*

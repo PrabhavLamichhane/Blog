@@ -1,5 +1,5 @@
 export class AppError{
-    constructor(public originalError?:any){
-        
+    constructor(public message?:any){
+       
     }
 }

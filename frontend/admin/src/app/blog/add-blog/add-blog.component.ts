@@ -34,9 +34,12 @@ export class AddBlogComponent implements OnInit {
   categories: any[] = [];
   blogId: any;
 
+  invalidBlog: boolean;
   loading:boolean = false;
   adding:boolean = false;
   updating:boolean = false;
+
+  blogError:string;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -66,7 +69,10 @@ export class AddBlogComponent implements OnInit {
         Validators.minLength(5),
         Validators.maxLength(255),
       ]),
-      description: new FormControl(null)
+      description: new FormControl(null,[
+        Validators.required,
+        // Validators.minLength(15),
+      ])
     })
   }
 
@@ -108,13 +114,14 @@ export class AddBlogComponent implements OnInit {
           alert('updated');
           this.updating = false;
         },
-          (error: AppError) => {
-            // this.categories.splice(0,1);
-            console.log(error)
-            if (error instanceof BadInput)
-              alert('Bad request');
-            else throw error;
-          });
+        (error: AppError) => {
+          if (error instanceof BadInput){
+            this.invalidBlog = true;
+            this.updating = false;
+            this.blogError = error.message;
+          }
+          else throw error;
+        });
     } else {
       this.adding = true;
       this.blogService.create(blog)
@@ -123,13 +130,14 @@ export class AddBlogComponent implements OnInit {
           alert('Posted');
           this.adding = false;
         },
-          (error: AppError) => {
-            // this.categories.splice(0,1);
-            console.log(error)
-            if (error instanceof BadInput)
-              alert('Bad request');
-            else throw error;
-          });
+        (error: AppError) => {
+          if (error instanceof BadInput){
+            this.invalidBlog = true;
+            this.adding = false;
+            this.blogError = error.message;
+          }
+          else throw error;
+        });
     }
   }
 

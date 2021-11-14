@@ -38,4 +38,10 @@
           </div>
         <span *ngIf="!adding && !updating">Submit</span> 
     </button>
+
+    <div class="alert alert-danger alert-dismissible fade show mt-5" role="alert" *ngIf="invalidBlog">
+        <strong>{{blogError}}</strong>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+    </div>
+
 </form>

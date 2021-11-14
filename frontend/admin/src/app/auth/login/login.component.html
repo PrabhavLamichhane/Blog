@@ -20,10 +20,17 @@
             <!-- <div *ngIf="name.errors.cannotContainSpace ">Category cannot contain space.</div> -->
         </div>
     </div>
+
     <button type="submit" class="btn btn-success" [disabled]="!form.valid" (click)="signIn()">
         <div *ngIf="logging" class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         <span *ngIf="!logging">Log In</span> 
     </button>
+
+    <div class="alert alert-danger alert-dismissible fade show mt-5" role="alert" *ngIf="invalidLogin">
+        <strong>{{loginError}}</strong>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+    </div>
+
 </form>

@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from './../../services/auth.service';
+import { AppError } from 'src/app/shared/errors/app-error';
+import { BadInput } from 'src/app/shared/errors/bad-input';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +15,8 @@ export class LoginComponent implements OnInit {
   invalidLogin: boolean;
   form: FormGroup;
   logging:boolean = false;
+
+  loginError:string;
 
   constructor(
     private router: Router,
@@ -59,7 +63,15 @@ export class LoginComponent implements OnInit {
         }
         else
           this.invalidLogin = true;
-      })
+      },
+      (error: AppError) => {
+        if (error instanceof BadInput){
+          this.invalidLogin = true;
+          this.logging = false;
+          this.loginError = error.message;
+        }
+        else throw error;
+      });
   }
 
 }

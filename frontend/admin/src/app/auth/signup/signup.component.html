@@ -2,11 +2,13 @@
     <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
         <input type="email" formControlName="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        <div *ngIf="email.touched && email.invalid " class="alert alert-danger ">
+        <div *ngIf="email.pending">Checking for email uniqueness...</div>
+        <div *ngIf="email.touched && email.invalid " class="alert alert-danger">
             <div *ngIf="email.errors.required ">Email is required</div>
             <div *ngIf="email.errors.email ">Invalid email address</div>
             <div *ngIf="email.errors.maxlength ">Email should be maximum {{ email.errors.minlength.requiredLength }} characters.</div>
             <div *ngIf="email.errors.minlength ">Email should be minimum {{ email.errors.minlength.requiredLength }} characters.</div>
+            <div *ngIf="email.errors?.emailExists">User with this email already exists...</div>
             <!-- <div *ngIf="name.errors.cannotContainSpace ">Category cannot contain space.</div> -->
         </div>
     </div>
@@ -49,4 +51,9 @@
           </div>
         <span *ngIf="!creating">Sign Up</span> 
     </button>
+    <div class="alert alert-danger alert-dismissible fade show mt-5" role="alert" *ngIf="invalidSignUp">
+        <strong>{{signUpError}}</strong>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+    </div>
+
 </form>

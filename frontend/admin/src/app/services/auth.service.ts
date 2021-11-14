@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { AppError } from '../shared/errors/app-error';
@@ -35,7 +35,6 @@ export class AuthService {
       JSON.stringify(credentials), httpOptions)
       .pipe(
         map((response: any) => {
-          console.log(response.body.token);
           if (response && response.body.token) {
             localStorage.setItem('token', response.body.token);
             return true;
@@ -58,7 +57,15 @@ export class AuthService {
           return false;
         }),
         catchError(this.handleError)
-      );;
+      );
+  }
+
+  getUsers(){
+    return this.http.get(this.url+'users')
+    .pipe(
+      map((response: any) => response),
+      catchError(this.handleError)
+    );
   }
 
   logout() {
@@ -81,6 +88,7 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
+  
   private tokenNotExpired() {
     let jwtHelper = new JwtHelperService();
 
@@ -89,15 +97,15 @@ export class AuthService {
     return item != null && !jwtHelper.isTokenExpired(item);
   }
 
-  handleError(error: Response) {
+  handleError(error: any) {
     if (error.status === 400)
-      return Observable.throw(new BadInput(error));
+      return throwError(new BadInput(error.error));
+    
 
     if (error.status === 404)
-      return Observable.throw(new NotFoundError(error));
+      return throwError(new NotFoundError(error.error));
 
-    return Observable.throw(new AppError(error));
-
+    return throwError(new AppError(error.error));
 
   }
 
