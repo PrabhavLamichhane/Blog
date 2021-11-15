@@ -41,6 +41,12 @@ export class AddBlogComponent implements OnInit {
 
   blogError:string;
 
+  query = {
+		limit: 10,
+		skip: 0,
+		key: ''
+	}
+
   constructor(
     private sanitizer: DomSanitizer,
     private service: CategoryService,
@@ -82,7 +88,7 @@ export class AddBlogComponent implements OnInit {
 
   getCategories(): void {
     this.loading = true;
-    this.service.getAll()
+    this.service.getAll(this.query)
       .subscribe(categories => {
         this.categories = categories as any[];
         this.loading = false;
@@ -101,6 +107,8 @@ export class AddBlogComponent implements OnInit {
         });
     }
   }
+
+  
 
   onSubmit() {
     let blog = this.editorForm.value
@@ -128,6 +136,7 @@ export class AddBlogComponent implements OnInit {
         .subscribe(category => {
           // this.categories.splice(0,0,category);
           alert('Posted');
+          console.log(blog);
           this.adding = false;
         },
         (error: AppError) => {

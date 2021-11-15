@@ -1,7 +1,7 @@
 <div class="spinner-border" role="status" *ngIf="loading">
     <span class="visually-hidden">Loading...</span>
 </div>
-<div class="card border-dark mb-3" *ngFor="let blog of blogs">
+<div class="card border-dark mb-3" *ngFor="let blog of blogs | paginate:{ id: 'myBlog' , itemsPerPage:query.pageSize, currentPage:query.pageNumber, totalItems:count}">
     <div class="card-header">
         <a [routerLink]="['/blogs',blog._id,blog.title | kebabcase]">{{blog.title}}</a>
         <button class="btn btn-success mx-3" [routerLink]="['/edit-blog',blog._id]">Update</button>
@@ -12,6 +12,11 @@
             <span *ngIf="!deleting">Delete</span> 
         </button>
     </div>
-    <div class="card-body text-dark" [innerHTML]="blog.description">
-    </div>
+    <!-- <div class="card-body text-dark" [innerHTML]="blog.description">
+    </div> -->
+</div>
+
+<div class="has-text-centered">
+    <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
+    <pagination-controls (pageChange)="getBlogs($event)" id="myBlog"></pagination-controls>
 </div>

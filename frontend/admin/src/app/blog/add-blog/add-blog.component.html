@@ -27,7 +27,7 @@
 
     <label for="editor">Editor</label>
     <!-- <quill-editor formControlName="editor"></quill-editor> -->
-    <quill-editor [styles]="{height: '200px',background:'white'}" formControlName="description" (onContentChanged)="maxLength($event)" (onFocus)="focus($event) " (onEditorChanged)="changedEditor($event) " (onBlur)="blur($event) " (onEditorCreated)="created($event)"
+    <quill-editor [styles]="{minHeight: '200px',background:'white'}" formControlName="description" (onContentChanged)="maxLength($event)" (onFocus)="focus($event) " (onEditorChanged)="changedEditor($event) " (onBlur)="blur($event) " (onEditorCreated)="created($event)"
         [modules]="moduleConfig">
     </quill-editor>
     <!-- length not working properly -->

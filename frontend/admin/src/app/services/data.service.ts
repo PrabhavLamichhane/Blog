@@ -17,8 +17,8 @@ export class DataService {
     private http: HttpClient,
     ) { }
 
-  getAll() {
-    return this.http.get(this.url)
+  getAll(query) {
+    return this.http.get(this.url+ this.getQueryString(query))
       .pipe(
         map(response => response),
         catchError(this.handleError)
@@ -87,5 +87,14 @@ export class DataService {
       Authhttp instead of http in angular-jwt
   }
   */
+
+
+  public getQueryString(query) {
+    let queryString = '?';
+    for (let key in query) {
+        queryString += key + '=' + query[key] + '&';
+    }
+    return queryString;
+}
 
 }

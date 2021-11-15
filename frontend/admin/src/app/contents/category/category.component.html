@@ -20,6 +20,11 @@
                 <!-- <div *ngIf="name.errors.cannotContainSpace ">Category cannot contain space.</div> -->
             </div>
         </form>
+        <div class="alert alert-danger alert-dismissible fade show mt-5" role="alert" *ngIf="invalidCategory">
+            <strong>{{categoryError}}</strong>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+        </div>
+
     </div>
 </div>
 

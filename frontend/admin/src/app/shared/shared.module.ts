@@ -8,6 +8,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { KebabcasePipe } from './pipes/kebabcase.pipe';
 import { NoAccessComponent } from './components/no-access/no-access.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
@@ -24,12 +25,14 @@ import { NoAccessComponent } from './components/no-access/no-access.component';
 
     FormsModule,
     ReactiveFormsModule,
+    NgxPaginationModule
   ],
   exports:[
     NavigationComponent,
     FooterComponent,
     KebabcasePipe,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
   ]
 })
 export class SharedModule { }

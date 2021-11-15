@@ -4,14 +4,26 @@ const moment = require('moment');
 const { Category } = require('../models/category');
 const { Blog, validate } = require('../models/blog');
 const validateObjectId = require('../middleware/validateObjectId');
+const { padStart } = require('lodash');
 
 const router = express.Router();
 
 router.get('/', async(req, res) => {
+    const pageNumber = parseInt(req.query.pageNumber);
+    const pageSize = parseInt(req.query.pageSize);
+
     const blogs = await Blog.find()
+        .skip((pageNumber - 1) * pageSize)
+        .limit(pageSize)
         .select('-__v')
+        // .count()
         .sort('name');
-    res.send(blogs);
+
+    const blogCount = await Blog.find().count()
+    res.send({
+        blogs: blogs,
+        count: blogCount
+    });
 });
 
 router.post('/', async(req, res) => {

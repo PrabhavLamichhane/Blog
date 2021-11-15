@@ -17,11 +17,20 @@ export class CategoryComponent implements OnInit {
 
   @ViewChild('closebutton') closebutton;
   categories: any[] = [];
+
+  invalidCategory:boolean;
+  categoryError:string;
   // also show posting posted deleting deleted and updating updated stats
   loading:boolean = false;
   creating:boolean = false;
   updating:boolean = false;
   deleting:boolean = false;
+
+  query = {
+		limit: 10,
+		skip: 0,
+		key: ''
+	}
 
   form = new FormGroup({
     name: new FormControl('', [
@@ -44,7 +53,7 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.service.getAll()
+    this.service.getAll(this.query)
       .subscribe(categories => {
         this.categories = categories as any[];
         this.loading = false;
@@ -60,13 +69,14 @@ export class CategoryComponent implements OnInit {
         this.categories.splice(0, 0, category);
         this.creating = false;
       },
-        (error: AppError) => {
-          // this.categories.splice(0,1);
-          console.log(error);
-          if (error instanceof BadInput)
-            alert('Bad request');
-          else throw error;
-        });
+      (error: AppError) => {
+        if (error instanceof BadInput){
+          this.invalidCategory = true;
+          this.creating= false;
+          this.categoryError = error.message;
+        }
+        else throw error;
+      });
   }
 
   updateCategory(category: any) {
@@ -79,7 +89,14 @@ export class CategoryComponent implements OnInit {
         this.closebutton.nativeElement.click();
         this.updating = true;
       }, (error) => {
-
+        (error: AppError) => {
+          if (error instanceof BadInput){
+            this.invalidCategory = true;
+            this.updating= false;
+            this.categoryError = error.message;
+          }
+          else throw error;
+        }
       });
   }
 

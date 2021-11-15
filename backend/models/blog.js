@@ -30,7 +30,7 @@ function validateBlog(blog) {
         categoryId: Joi.objectId().required(),
         description: Joi.string().required().min(15).messages({
             "string.base": `Blog Description contain is required`,
-            'string.min': `"Blog Desciption" should have a minimum length of {#limit}`,
+            'string.min': `Your blog is too short. Blog Desciption should have a minimum length of {#limit} characters.`,
             "string.empty": `"" must contain value`,
             "string.pattern.base": `"" must be 10 digit number`,
             "any.required": `"" is a required field`
