@@ -21,6 +21,14 @@ const Blog = mongoose.model('Blog', new mongoose.Schema({
         required: true,
         // minlength: 20,
         // maxlength: 5000
+    },
+    user: {
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        },
+        displayName: String
     }
 }));
 
@@ -34,9 +42,12 @@ function validateBlog(blog) {
             "string.empty": `"" must contain value`,
             "string.pattern.base": `"" must be 10 digit number`,
             "any.required": `"" is a required field`
-        })
+        }),
+        user: Joi.object().keys({
+            userId: Joi.objectId().required(),
+            displayName: Joi.string().required()
+        }).required(),
     });
-
     return schema.validate(blog);
 }
 
