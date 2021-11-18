@@ -35,8 +35,10 @@ export class AuthService {
       JSON.stringify(credentials), httpOptions)
       .pipe(
         map((response: any) => {
-          if (response && response.body.token) {
-            localStorage.setItem('token', response.body.token);
+          if (response && response.headers.get('x-auth-token')) {
+            localStorage.setItem('token', response.headers.get('x-auth-token'));
+            console.log(JSON.stringify(response.body));
+            localStorage.setItem('user',JSON.stringify(response.body));
             return true;
           }
           return false;
@@ -52,6 +54,7 @@ export class AuthService {
         map((response: any) => {
           if (response && response.headers.get('x-auth-token')) {
             localStorage.setItem('token', response.headers.get('x-auth-token'));
+            localStorage.setItem('user',JSON.stringify(response.body));
             return true;
           }
           return false;
@@ -78,9 +81,10 @@ export class AuthService {
 
   get currentUser() {
     let token = localStorage.getItem('token');
-    if (!token) return null;
-
-    return new JwtHelperService().decodeToken(token);
+    let currentUser = localStorage.getItem('user');
+    if (!token || ! currentUser) return null;
+    // return new JwtHelperService().decodeToken(token);
+    return JSON.parse(currentUser);
 
   }
 

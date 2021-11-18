@@ -12,10 +12,6 @@ const Blog = mongoose.model('Blog', new mongoose.Schema({
         minlength: 5,
         maxlength: 255
     },
-    category: {
-        type: categorySchema,
-        required: true
-    },
     description: {
         type: String,
         required: true,
@@ -29,13 +25,13 @@ const Blog = mongoose.model('Blog', new mongoose.Schema({
             required: true
         },
         displayName: String
-    }
+    },
+    tags: [String]
 }));
 
 function validateBlog(blog) {
     const schema = Joi.object({
         title: Joi.string().min(5).max(255).required(),
-        categoryId: Joi.objectId().required(),
         description: Joi.string().required().min(15).messages({
             "string.base": `Blog Description contain is required`,
             'string.min': `Your blog is too short. Blog Desciption should have a minimum length of {#limit} characters.`,
@@ -47,6 +43,7 @@ function validateBlog(blog) {
             userId: Joi.objectId().required(),
             displayName: Joi.string().required()
         }).required(),
+        tags: Joi.array()
     });
     return schema.validate(blog);
 }

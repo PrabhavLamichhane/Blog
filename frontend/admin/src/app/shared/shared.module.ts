@@ -9,8 +9,9 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { KebabcasePipe } from './pipes/kebabcase.pipe';
 import { NoAccessComponent } from './components/no-access/no-access.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-
-
+import {MatChipsModule} from '@angular/material/chips';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -25,14 +26,22 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
     FormsModule,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatIconModule
+    
   ],
   exports:[
     NavigationComponent,
     FooterComponent,
     KebabcasePipe,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatIconModule
+    
   ]
 })
 export class SharedModule { }

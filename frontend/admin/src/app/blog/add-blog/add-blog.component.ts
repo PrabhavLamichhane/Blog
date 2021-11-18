@@ -1,9 +1,10 @@
-import { BlogService } from '../../services/blog.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {MatChipInputEvent} from '@angular/material/chips';
 
 import 'quill-emoji/dist/quill-emoji.js';
 import Quill from 'quill';
@@ -12,6 +13,8 @@ import BlotFormatter from 'quill-blot-formatter/dist/BlotFormatter';
 import { CategoryService } from 'src/app/services/category.service';
 import { AppError } from '../../shared/errors/app-error';
 import { BadInput } from '../../shared/errors/bad-input';
+import { BlogService } from '../../services/blog.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 Quill.register('modules/blotFormatter', BlotFormatter);
@@ -31,7 +34,6 @@ export class AddBlogComponent implements OnInit {
 
   editorContent: string | undefined;
 
-  categories: any[] = [];
   blogId: any;
 
   invalidBlog: boolean;
@@ -46,11 +48,17 @@ export class AddBlogComponent implements OnInit {
 		skip: 0,
 		key: ''
 	}
+  tags:any[]=[];
+
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
   constructor(
     private sanitizer: DomSanitizer,
-    private service: CategoryService,
     private blogService: BlogService,
+    private authService: AuthService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
   ) { }
@@ -58,7 +66,6 @@ export class AddBlogComponent implements OnInit {
   ngOnInit(): void {
 
     this.getEditor();
-    this.getCategories();
 
     this.route.paramMap
       .subscribe(params => {
@@ -67,9 +74,6 @@ export class AddBlogComponent implements OnInit {
       });
 
     this.editorForm = this.formBuilder.group({
-      categoryId: new FormControl('', [
-        Validators.required,
-      ]),
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(5),
@@ -86,14 +90,6 @@ export class AddBlogComponent implements OnInit {
     return this.editorForm.controls;
   }
 
-  getCategories(): void {
-    this.loading = true;
-    this.service.getAll(this.query)
-      .subscribe(categories => {
-        this.categories = categories as any[];
-        this.loading = false;
-      });
-  }
 
   getBlog(id): void {
     this.loading = true;
@@ -101,7 +97,8 @@ export class AddBlogComponent implements OnInit {
       this.blogService.getOne(id)
         .subscribe(blog => {
           // this.blog = blog;
-          this.editorForm.setValue({ categoryId: blog['category']['_id'], title: blog['title'], description: blog['description'] });
+          this.editorForm.setValue({ title: blog['title'], description: blog['description'] });
+          this.tags = blog['tags'];
           this.loading = false;
 
         });
@@ -111,13 +108,19 @@ export class AddBlogComponent implements OnInit {
   
 
   onSubmit() {
-    let blog = this.editorForm.value
 
-    // this.editorContent = this.editorForm.get('description')?.value;
+    let blog = this.editorForm.value;
+    blog.user = {
+      userId: this.authService.currentUser._id,
+      displayName: this.authService.currentUser.displayName
+    }
+    blog.tags = this.tags;
+
     if (this.blogId) {
+
       this.updating = true;
       this.blogService.update(blog, this.blogId)
-        .subscribe(category => {
+        .subscribe(data => {
           // this.categories.splice(0,0,category);
           alert('updated');
           this.updating = false;
@@ -130,13 +133,13 @@ export class AddBlogComponent implements OnInit {
           }
           else throw error;
         });
+
     } else {
       this.adding = true;
       this.blogService.create(blog)
         .subscribe(category => {
           // this.categories.splice(0,0,category);
           alert('Posted');
-          console.log(blog);
           this.adding = false;
         },
         (error: AppError) => {
@@ -220,6 +223,24 @@ export class AddBlogComponent implements OnInit {
 
       }
 
+    }
+  }
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our fruit
+    if (value) {
+      this.tags.push(value);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+  }
+
+  remove(index): void {
+    if (index >= 0) {
+      this.tags.splice(index, 1);
     }
   }
 

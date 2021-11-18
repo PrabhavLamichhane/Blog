@@ -31,9 +31,6 @@ router.post('/', async(req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const category = await Category.findById(req.body.categoryId);
-    if (!category) return res.status(400).send('Invalid category.');
-
     let user;
     if (req.body.user) {
         user = await User.findById(req.body.user.userId);
@@ -45,15 +42,12 @@ router.post('/', async(req, res) => {
 
     let blog = new Blog({
         title: req.body.title,
-        category: {
-            _id: category._id,
-            name: category.name
-        },
         description: req.body.description,
         user: {
             userId: user._id,
             displayName: user.displayName
         },
+        tags: req.body.tags,
         publishDate: moment().toJSON()
     });
     await blog.save();
@@ -65,17 +59,24 @@ router.put('/:id', validateObjectId, async(req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const category = await Category.findById(req.body.categoryId);
-    if (!category) return res.status(400).send('Invalid category.');
+    let user;
+    if (req.body.user) {
+        user = await User.findById(req.body.user.userId);
+        if (!user) return res.status(400).send('Invalid userId.');
+        if (user.displayName.toLowerCase() !== req.body.user.displayName) return res.status(400).send('Invalid name')
+    } else {
+        return res.status(400).send('Invalid user.');
+    }
 
     const blog = await Blog.findByIdAndUpdate(
         req.params.id, {
             title: req.body.title,
-            category: {
-                _id: category._id,
-                name: category.name
-            },
             description: req.body.description,
+            user: {
+                userId: user._id,
+                displayName: user.displayName
+            },
+            tags: req.body.tags,
             publishDate: moment().toJSON()
         }, { new: true }
     );
