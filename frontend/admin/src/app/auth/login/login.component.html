@@ -1,36 +1,42 @@
-<form [formGroup]="form">
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input type="email" formControlName="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        <div *ngIf="email.touched && email.invalid " class="alert alert-danger ">
-            <div *ngIf="email.errors.required ">Email is required</div>
-            <div *ngIf="email.errors.email ">Invalid email address</div>
-            <div *ngIf="email.errors.maxlength ">Email should be maximum {{ email.errors.minlength.requiredLength }} characters.</div>
-            <div *ngIf="email.errors.minlength ">Email should be minimum {{ email.errors.minlength.requiredLength }} characters.</div>
-            <!-- <div *ngIf="name.errors.cannotContainSpace ">Category cannot contain space.</div> -->
-        </div>
-    </div>
-    <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" formControlName="password" id="exampleInputPassword1">
-        <div *ngIf="password.touched && password.invalid " class="alert alert-danger ">
-            <div *ngIf="password.errors.required ">Password is required</div>
-            <div *ngIf="password.errors.maxlength ">Password should be maximum {{ password.errors.minlength.requiredLength }} characters.</div>
-            <div *ngIf="password.errors.minlength ">Password should be minimum {{ password.errors.minlength.requiredLength }} characters.</div>
-            <!-- <div *ngIf="name.errors.cannotContainSpace ">Category cannot contain space.</div> -->
-        </div>
-    </div>
+<div class="form d-flex justify-content-center align-items-center">
+    <div class="card form-card">
+        <form [formGroup]="form" class="p-5">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                <input type="email" formControlName="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <div *ngIf="email.touched && email.invalid " class="alert alert-danger mt-2">
+                    <div *ngIf="email.errors.required ">Email is required</div>
+                    <div *ngIf="email.errors.email ">Invalid email address</div>
+                    <div *ngIf="email.errors.maxlength ">Email should be maximum {{ email.errors.minlength.requiredLength }} characters.</div>
+                    <div *ngIf="email.errors.minlength ">Email should be minimum {{ email.errors.minlength.requiredLength }} characters.</div>
+                    <!-- <div *ngIf="name.errors.cannotContainSpace ">Category cannot contain space.</div> -->
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" formControlName="password" id="exampleInputPassword1">
+                <div *ngIf="password.touched && password.invalid " class="alert alert-danger mt-2">
+                    <div *ngIf="password.errors.required ">Password is required</div>
+                    <div *ngIf="password.errors.maxlength ">Password should be maximum {{ password.errors.minlength.requiredLength }} characters.</div>
+                    <div *ngIf="password.errors.minlength ">Password should be minimum {{ password.errors.minlength.requiredLength }} characters.</div>
+                    <!-- <div *ngIf="name.errors.cannotContainSpace ">Category cannot contain space.</div> -->
+                </div>
+            </div>
 
-    <button type="submit" class="btn btn-success" [disabled]="!form.valid" (click)="signIn()">
-        <div *ngIf="logging" class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        <span *ngIf="!logging">Log In</span> 
-    </button>
+            <button type="submit" class="btn btn-primary" [disabled]="!form.valid" (click)="signIn()">
+                <div *ngIf="logging" class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                <span *ngIf="!logging">Log In</span> 
+            </button>
 
-    <div class="alert alert-danger alert-dismissible fade show mt-5" role="alert" *ngIf="invalidLogin">
-        <strong>{{loginError}}</strong>
-        <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+            <div class="alert alert-danger alert-dismissible fade show mt-5" role="alert" *ngIf="invalidLogin">
+                <strong>{{loginError}}</strong>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+            </div>
+            <h3 class="mt-3">Don't have an account?</h3>
+            <h2><a class="link-primary" type="submit" routerLink='/auth/signup'>Sign Up</a></h2>
+
+        </form>
     </div>
-
-</form>
+</div>

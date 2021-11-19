@@ -1,22 +1,35 @@
-<div class="spinner-border" role="status" *ngIf="loading">
-    <span class="visually-hidden">Loading...</span>
-</div>
-<div class="card border-dark mb-3" *ngFor="let blog of blogs | paginate:{ id: 'myBlog' , itemsPerPage:query.pageSize, currentPage:query.pageNumber, totalItems:count}">
-    <div class="card-header">
-        <a [routerLink]="['/blogs',blog._id,blog.title | kebabcase]">{{blog.title}}</a>
-        <button class="btn btn-success mx-3" [routerLink]="['/edit-blog',blog._id]">Update</button>
-        <button class="btn btn-danger mx-3" (click)="deleteBlog(blog)">
-            <div *ngIf="deleting" class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            <span *ngIf="!deleting">Delete</span> 
-        </button>
+<h1 class="mt-3 heading mx-auto">Blogs</h1>
+<div class="d-flex justify-content-center align-items-center loading" *ngIf="loading">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
     </div>
-    <!-- <div class="card-body text-dark" [innerHTML]="blog.description">
-    </div> -->
 </div>
 
-<div class="has-text-centered">
+<div class="mx-auto content">
+
+    <div class="card mb-3 mx-auto" *ngFor="let blog of blogs | paginate:{ id: 'myBlog' , itemsPerPage:query.pageSize, currentPage:query.pageNumber, totalItems:count}">
+        <div class="card-header d-flex-row">
+
+            <h1 class="blog-heading ml-3"> <a [routerLink]="['/blogs',blog._id,blog.title | kebabcase]">{{blog.title}}</a></h1>
+
+            <div class="d-flex justify-content-end activity">
+                <mat-icon [routerLink]="['/edit-blog',blog._id]">edit</mat-icon>
+                <div *ngIf="deleting" class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <mat-icon (click)="deleteBlog(blog)" *ngIf="!deleting">delete_forever</mat-icon>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+<!-- <div class="card-body text-dark" [innerHTML]="blog.description">
+    </div> -->
+
+
+<div class="has-text-centered mb-4">
     <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
     <pagination-controls (pageChange)="getBlogs($event)" id="myBlog"></pagination-controls>
 </div>

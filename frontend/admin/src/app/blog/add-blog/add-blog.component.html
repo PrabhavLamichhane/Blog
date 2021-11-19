@@ -9,6 +9,7 @@
     <div *ngIf="f.title.touched && f.title.invalid " class="alert alert-danger ">
         <div *ngIf="f.title.errors.required ">Title is required</div>
         <div *ngIf="f.title.errors.minlength ">Title should be minimum {{ f.title.errors.minlength.requiredLength }} characters.</div>
+        <div *ngIf="f.title.errors.maxlength ">Title should be maximul {{ f.title.errors.minlength.requiredLength }} characters. You can add repeat long title in the description...</div>
         <!-- <div *ngIf="name.errors.cannotContainSpace ">Category cannot contain space.</div> -->
     </div>
 

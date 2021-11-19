@@ -1,0 +1,17 @@
+a {
+    text-decoration: none;
+}
+
+.form {
+    height: 100%;
+    width: 100%;
+}
+
+.form-card {
+    min-width: 45%;
+}
+
+.heading {
+    font-size: 2rem;
+    font-weight: 700;
+}

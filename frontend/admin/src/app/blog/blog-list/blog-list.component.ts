@@ -17,7 +17,7 @@ export class BlogListComponent implements OnInit {
   count: number;
 
   query = {
-    pageSize: 2,
+    pageSize: 10,
     pageNumber: 1
   }
 

@@ -1,12 +1,6 @@
-<app-navigation></app-navigation>
-<!-- <div class="container " style="margin-top: 20px;">
-    <ul class="nav nav-pills">
-        <li class="nav-item">
-            <a class="nav-link" routerLink="" [routerLinkActiveOptions]={exact:true} routerLinkActive="active">Blogs</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/categories" routerLinkActive="active">Categories</a>
-        </li>
-    </ul>
-</div> -->
-<router-outlet></router-outlet>
+<div class="main">
+    <div *ngIf="authService.isLoggedIn()">
+        <app-navigation></app-navigation>
+    </div>
+    <router-outlet></router-outlet>
+</div>

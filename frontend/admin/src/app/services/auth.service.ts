@@ -37,7 +37,6 @@ export class AuthService {
         map((response: any) => {
           if (response && response.headers.get('x-auth-token')) {
             localStorage.setItem('token', response.headers.get('x-auth-token'));
-            console.log(JSON.stringify(response.body));
             localStorage.setItem('user',JSON.stringify(response.body));
             return true;
           }
