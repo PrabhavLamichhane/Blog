@@ -220,9 +220,8 @@ export class AddBlogComponent implements OnInit {
           ['emoji'],
         ],
         handlers: { 'emoji': function () { } },
-
-      }
-
+        
+      },
     }
   }
 

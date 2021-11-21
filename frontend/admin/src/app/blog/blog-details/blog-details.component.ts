@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
 import { BlogService } from './../../services/blog.service';
@@ -16,7 +17,8 @@ export class BlogDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private service: BlogService
+    private service: BlogService,
+    private sanitizer: DomSanitizer,
   ) { }
 
   ngOnInit(): void {
@@ -38,6 +40,10 @@ export class BlogDetailsComponent implements OnInit {
         this.blog = blog;
         this.loading = false;
       });
+  }
+
+  transformHtml(htmlTextWithStyle): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(htmlTextWithStyle);
   }
 
 }

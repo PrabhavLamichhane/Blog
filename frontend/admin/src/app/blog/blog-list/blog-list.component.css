@@ -32,4 +32,20 @@ a {
 
 .content {
     width: 55%;
+    min-height: 100vh;
+}
+
+@media (max-width: 600px) {
+    .content {
+        width: 100%;
+    }
+}
+
+.tag {
+    font-size: 1.3em;
+}
+
+.pagination {
+    position: sticky;
+    top: 100%;
 }

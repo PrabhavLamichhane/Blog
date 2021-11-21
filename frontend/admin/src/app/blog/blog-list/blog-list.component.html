@@ -8,9 +8,13 @@
 <div class="mx-auto content">
 
     <div class="card mb-3 mx-auto" *ngFor="let blog of blogs | paginate:{ id: 'myBlog' , itemsPerPage:query.pageSize, currentPage:query.pageNumber, totalItems:count}">
-        <div class="card-header d-flex-row">
+        <div class="d-flex-row p-3">
 
             <h1 class="blog-heading ml-3"> <a [routerLink]="['/blogs',blog._id,blog.title | kebabcase]">{{blog.title}}</a></h1>
+
+            <span *ngFor="let tag of blog.tags" class="mx-1">
+                <span class="badge bg-secondary tag">{{tag}}</span>
+            </span>
 
             <div class="d-flex justify-content-end activity">
                 <mat-icon [routerLink]="['/edit-blog',blog._id]">edit</mat-icon>
@@ -24,12 +28,11 @@
         </div>
     </div>
 
+    <div class="has-text-centered mb-4 pb-4 pagination">
+        <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
+        <pagination-controls (pageChange)="getBlogs($event)" id="myBlog"></pagination-controls>
+    </div>
+
 </div>
 <!-- <div class="card-body text-dark" [innerHTML]="blog.description">
     </div> -->
-
-
-<div class="has-text-centered mb-4">
-    <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
-    <pagination-controls (pageChange)="getBlogs($event)" id="myBlog"></pagination-controls>
-</div>

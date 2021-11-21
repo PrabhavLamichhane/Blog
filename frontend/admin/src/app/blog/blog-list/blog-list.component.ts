@@ -27,7 +27,7 @@ export class BlogListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.getBlogs(1)
+    this.getBlogs(1);
   }
 
   getBlogs(pageNumber) {

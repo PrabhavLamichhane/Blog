@@ -1,3 +1,18 @@
 .example-chip-list {
     width: 100%;
 }
+
+.loading {
+    width: 100%;
+    height: 100vh;
+}
+
+.blog-form {
+    width: 85%;
+}
+
+@media (max-width: 600px) {
+    .blog-form {
+        width: 100%;
+    }
+}
