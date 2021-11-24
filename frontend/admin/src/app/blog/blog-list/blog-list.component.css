@@ -32,7 +32,11 @@ a {
 
 .content {
     width: 55%;
-    min-height: 100vh;
+}
+
+.blog-page {
+    height: 100%;
+    overflow: auto;
 }
 
 @media (max-width: 600px) {

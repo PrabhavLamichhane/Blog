@@ -12,6 +12,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {MatIconModule} from '@angular/material/icon';
     NgxPaginationModule,
     MatChipsModule,
     MatFormFieldModule,
-    MatIconModule
+    MatIconModule,
+    InfiniteScrollModule
     
   ],
   exports:[
@@ -40,8 +42,8 @@ import {MatIconModule} from '@angular/material/icon';
     NgxPaginationModule,
     MatChipsModule,
     MatFormFieldModule,
-    MatIconModule
-    
+    MatIconModule,
+    InfiniteScrollModule 
   ]
 })
 export class SharedModule { }

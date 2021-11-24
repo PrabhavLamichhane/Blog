@@ -22,12 +22,10 @@ export class BlogDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // let id = this.route.snapshot.paramMap.get('id');
-    // console.log(id);
+   
     this.route.paramMap
       .subscribe(params => {
         let id = params.get('id');
-        console.log(id);
         this.getDetails(id);
       });
 

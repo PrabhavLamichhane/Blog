@@ -1,4 +1,5 @@
-<h1 class="mt-3 heading mx-auto">Blogs</h1>
+<h1 class="mt-3 heading mx-auto">
+    Blogs</h1>
 <div class="d-flex justify-content-center align-items-center loading" *ngIf="loading">
     <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
@@ -30,7 +31,9 @@
 
     <div class="has-text-centered mb-4 pb-4 pagination">
         <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
-        <pagination-controls (pageChange)="getBlogs($event)" id="myBlog"></pagination-controls>
+        <!-- <pagination-controls (pageChange)="getBlogs($event)" id="myBlog"></pagination-controls> -->
+        <pagination-controls (pageChange)="pageChange($event)" id="myBlog" class="my-pagination">
+        </pagination-controls>
     </div>
 
 </div>

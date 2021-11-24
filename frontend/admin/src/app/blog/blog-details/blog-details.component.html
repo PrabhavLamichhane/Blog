@@ -2,9 +2,13 @@
     <span class="visually-hidden">Loading...</span>
 </div>
 
-<div class="mb-3 mx-auto content" *ngIf="!loading">
+<div class="mb-5 mx-auto content" *ngIf="!loading">
     <h1 class="heading">{{blog?.title}}</h1>
     <div class="ql-snow">
         <p class="ql-editor" [innerHtml]="transformHtml(blog?.description)"></p>
     </div>
+    <span *ngFor="let tag of blog.tags" class="mx-1 mb-5">
+        <span class="badge bg-secondary tag">{{tag}}</span>
+    </span>
+
 </div>

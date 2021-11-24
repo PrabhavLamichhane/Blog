@@ -10,6 +10,10 @@
     padding: 30px;
 }
 
+.tag {
+    font-size: 1.3em;
+}
+
 @media (max-width: 800px) {
     .content {
         width: 100%;
