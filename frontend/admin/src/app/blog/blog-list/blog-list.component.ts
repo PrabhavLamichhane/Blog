@@ -4,6 +4,7 @@ import { BehaviorSubject, forkJoin, fromEvent, Observable } from "rxjs";
 import { map } from 'rxjs/operators';
 
 import { AppError } from 'src/app/shared/errors/app-error';
+import { BadInput } from 'src/app/shared/errors/bad-input';
 import { NotFoundError } from 'src/app/shared/errors/not-found-error';
 import { BlogService } from './../../services/blog.service';
 
@@ -79,11 +80,26 @@ export class BlogListComponent implements OnInit {
 
   }
 
+  publishBlog(blog) {
+    this.service.publish(blog)
+      .subscribe(
+        () => {          
+          alert('Published')
+        },
+        (error: AppError) => {
+          if (error instanceof BadInput){
+            alert(error.message);
+          }
+          else throw error;
+        });
+
+  }
+
   pageChange(pageNumber: number) {
     if (pageNumber > 1)
       this.router.navigate([''], { queryParams: { page: pageNumber } });
-    else  
-    this.router.navigate([''])
+    else
+      this.router.navigate([''])
   }
 
 }

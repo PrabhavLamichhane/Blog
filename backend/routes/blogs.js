@@ -2,7 +2,6 @@ const express = require('express');
 const moment = require('moment');
 const { padStart } = require('lodash');
 
-const { Category } = require('../models/category');
 const { Blog, validate } = require('../models/blog');
 const { User } = require('../models/user');
 const validateObjectId = require('../middleware/validateObjectId');
@@ -55,30 +54,11 @@ router.post('/', async(req, res) => {
     res.send(blog);
 });
 
-router.put('/:id', validateObjectId, async(req, res) => {
-    const { error } = validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+router.patch('/:id', validateObjectId, async(req, res) => {
 
-    let user;
-    if (req.body.user) {
-        user = await User.findById(req.body.user.userId);
-        if (!user) return res.status(400).send('Invalid userId.');
-        if (user.displayName.toLowerCase() !== req.body.user.displayName) return res.status(400).send('Invalid name')
-    } else {
-        return res.status(400).send('Invalid user.');
-    }
 
     const blog = await Blog.findByIdAndUpdate(
-        req.params.id, {
-            title: req.body.title,
-            description: req.body.description,
-            user: {
-                userId: user._id,
-                displayName: user.displayName
-            },
-            tags: req.body.tags,
-            publishDate: moment().toJSON()
-        }, { new: true }
+        req.params.id, { isPublished: true }, { new: true }
     );
 
     if (!blog)
@@ -86,6 +66,7 @@ router.put('/:id', validateObjectId, async(req, res) => {
 
     res.send(blog);
 });
+
 
 router.delete('/:id', validateObjectId, async(req, res) => {
     const blog = await Blog.findByIdAndRemove(req.params.id);

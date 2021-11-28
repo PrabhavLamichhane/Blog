@@ -13,8 +13,8 @@ const httpOptions = {
 export class DataService {
 
   constructor(
-    private url: string, 
-    private http: HttpClient,
+    public url: string, 
+    public http: HttpClient,
     ) { }
 
   getAll(query) {

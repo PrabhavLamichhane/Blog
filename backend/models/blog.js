@@ -26,7 +26,11 @@ const Blog = mongoose.model('Blog', new mongoose.Schema({
         },
         displayName: String
     },
-    tags: [String]
+    tags: [String],
+    isPublished: {
+        type: Boolean,
+        default: false
+    }
 }));
 
 function validateBlog(blog) {
@@ -43,7 +47,8 @@ function validateBlog(blog) {
             userId: Joi.objectId().required(),
             displayName: Joi.string().required()
         }).required(),
-        tags: Joi.array()
+        tags: Joi.array(),
+        isPublished: Joi.boolean()
     });
     return schema.validate(blog);
 }
